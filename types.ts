@@ -3,7 +3,7 @@ export type DotState = boolean[]; // Array of 6 booleans representing dots 1-6
 
 export interface BrailleCharacter {
   kana: string;
-  dots: DotState;
+  dotsList: DotState[]; // Changed to array of DotStates to support multi-cell (e.g. Yoon, Dakuon)
   unicode: string;
 }
 
