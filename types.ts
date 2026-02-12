@@ -3,7 +3,7 @@ export type DotState = boolean[]; // Array of 6 booleans representing dots 1-6
 
 export interface BrailleCharacter {
   kana: string;
-  dotsList: DotState[]; // Changed to array of DotStates to support multi-cell (e.g. Yoon, Dakuon)
+  dotsList: DotState[]; 
   unicode: string;
 }
 
@@ -13,6 +13,7 @@ export enum LessonType {
   CONSONANTS = '子音',
   DAKUON = '濁音・半濁音',
   YOON = '拗音',
+  SPECIAL = '特殊な音（長音・促音）',
   NUMBERS = '数字',
   ALPHABET = 'アルファベット',
   BUSINESS = 'ビジネス点字の決まり'
@@ -23,4 +24,6 @@ export interface QuizQuestion {
   options: string[];
   answer: string;
   explanation: string;
+  questionType?: 'text' | 'braille';
+  optionType?: 'text' | 'braille';
 }

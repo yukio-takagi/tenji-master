@@ -120,6 +120,10 @@ export const generateBrailleMap = () => {
     }
   });
 
+  // 5. 特殊な音（長音・促音）
+  map['ー'] = [[false, true, false, false, true, false]]; // 2,5
+  map['っ'] = [[false, true, false, false, false, false]]; // 2
+
   return map;
 };
 
