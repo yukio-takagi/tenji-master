@@ -19,11 +19,17 @@ export enum LessonType {
   BUSINESS = 'ビジネス点字の決まり'
 }
 
+export enum QuizLevel {
+  BEGINNER = 'レベル1: 初級 (基礎・数字)',
+  INTERMEDIATE = 'レベル2: 中級 (特殊音・長音)',
+  ADVANCED = 'レベル3: 上級 (ビジネス・複合)'
+}
+
 export interface QuizQuestion {
   question: string;
   options: string[];
   answer: string;
   explanation: string;
-  questionType?: 'text' | 'braille';
-  optionType?: 'text' | 'braille';
+  questionType: 'text' | 'braille';
+  optionType: 'text' | 'braille';
 }

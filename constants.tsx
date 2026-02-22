@@ -25,13 +25,29 @@ export const CONSONANT_DOTS: Record<string, DotState> = {
   'ら': [false, false, false, false, true, false], // 5
 };
 
-// 記号（前置符）
-const MARKERS = {
+// 記号（前置符・特殊符）
+export const MARKERS = {
   YOON: [false, false, false, true, false, false],      // 4
   DAKUON: [false, false, false, false, true, false],    // 5
   HANDAKUON: [false, false, false, false, false, true], // 6
   YOON_DAKUON: [false, false, false, true, true, false], // 4,5
   YOON_HANDAKUON: [false, false, false, true, false, true], // 4,6
+  NUMBER_SIGN: [false, false, true, true, true, true],    // 3,4,5,6 (数符)
+  TSUNAGI_FU: [false, false, true, false, false, true],  // 3,6 (つなぎ符)
+};
+
+// 数字 (1-0 は a-j と同じドットパターン)
+export const NUMBERS: Record<string, DotState> = {
+  '1': [true, false, false, false, false, false], // 1
+  '2': [true, true, false, false, false, false],  // 1,2
+  '3': [true, false, false, true, false, false],  // 1,4
+  '4': [true, false, false, true, true, false],   // 1,4,5
+  '5': [true, false, false, false, true, false],  // 1,5
+  '6': [true, true, false, true, false, false],   // 1,2,4
+  '7': [true, true, false, true, true, false],    // 1,2,4,5
+  '8': [true, true, false, false, true, false],   // 1,2,5
+  '9': [false, true, false, true, false, false],  // 2,4
+  '0': [false, true, false, true, true, false],   // 2,4,5
 };
 
 export const generateBrailleMap = () => {
@@ -100,19 +116,16 @@ export const generateBrailleMap = () => {
   ];
 
   yoonGroups.forEach(({ base, yoon, dyoon, pyoon }) => {
-    // 拗音：[4] + [あ/う/お段]
     map[yoon[0]] = [MARKERS.YOON, map[base[0]][0]];
     map[yoon[1]] = [MARKERS.YOON, map[base[2]][0]];
     map[yoon[2]] = [MARKERS.YOON, map[base[4]][0]];
 
-    // 拗濁音：[4,5] + [あ/う/お段]
     if (dyoon && dyoon.length > 0) {
       map[dyoon[0]] = [MARKERS.YOON_DAKUON, map[base[0]][0]];
       map[dyoon[1]] = [MARKERS.YOON_DAKUON, map[base[2]][0]];
       map[dyoon[2]] = [MARKERS.YOON_DAKUON, map[base[4]][0]];
     }
 
-    // 拗半濁音：[4,6] + [あ/う/お段]
     if (pyoon && pyoon.length > 0) {
       map[pyoon[0]] = [MARKERS.YOON_HANDAKUON, map[base[0]][0]];
       map[pyoon[1]] = [MARKERS.YOON_HANDAKUON, map[base[2]][0]];
@@ -120,9 +133,14 @@ export const generateBrailleMap = () => {
     }
   });
 
-  // 5. 特殊な音（長音・促音）
+  // 5. 特殊な音
   map['ー'] = [[false, true, false, false, true, false]]; // 2,5
   map['っ'] = [[false, true, false, false, false, false]]; // 2
+
+  // 6. 数字 (数符はアプリ側で自動挿入するため、ここでは数字単体のみ)
+  Object.keys(NUMBERS).forEach(n => {
+    map[n] = [NUMBERS[n]];
+  });
 
   return map;
 };
