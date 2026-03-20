@@ -72,8 +72,8 @@ const App: React.FC = () => {
       // 数字が終わった後の処理
       if (isInsideNumber && !/[0-9]/.test(char)) {
         isInsideNumber = false;
-        // ビジネス点字ルール: 数字の直後に「あ・ら行」「や・ゆ・よ・わ」が続く場合は「つなぎ符(3点)」が必要
-        const targetRows = "あいうえおらりるれろやゆよわ";
+        // ビジネス点字ルール: 数字の直後に「あ・ら行」が続く場合は「つなぎ符(3,6点)」が必要
+        const targetRows = "あいうえおらりるれろ";
         if (targetRows.includes(char)) {
           result.push([MARKERS.TSUNAGI_FU]);
         }
